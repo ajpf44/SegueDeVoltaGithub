@@ -1,6 +1,8 @@
 import { getWhoDontFollowYouBack, getWhoYouDontFollowBack } from "./filter.js";
 
 const processResultPromise = async (divContainer, promisse) => {
+  const button = document.getElementById("submitSearch");
+  button.disabled = true;
   const arrDev = await promisse;
 
   divContainer.innerHTML = "";
@@ -15,17 +17,21 @@ const processResultPromise = async (divContainer, promisse) => {
             </a>`;
     divContainer.innerHTML += devInfo;
   });
+  button.disabled = false;
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
   const userInput = document.getElementById("userName");
   const button = document.getElementById("submitSearch");
 
-  button.addEventListener("click", () => {
-    // console.log(userInput.value)
-    handleInput(userInput.value);
+  userInput.addEventListener("keypress", async (evt)=>{
+
+    if(evt.key == "Enter") await handleInput(userInput.value);
+  })
+  button.addEventListener("click", async() => {
+    await handleInput(userInput.value);
   });
-  //divFollowers.innerHTML = await getWhoDontFollowYouBack()
+
 });
 
 async function handleInput(userName) {
