@@ -23,8 +23,6 @@ async function getWhoYouDontFollowBack(user) {
     (follower) => !followingNicks.includes(follower.login)
   );
 
-  console.log(who);
-
   return who;
 }
 

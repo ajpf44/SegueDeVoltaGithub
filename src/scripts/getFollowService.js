@@ -28,7 +28,7 @@ async function getUserFollowing(userName) {
       `https://api.github.com/users/${userName}/following`
     );
     const followingData = await res.json();
-
+    
     for (let key in followingData) {
       userFollowing.push({
         login: followingData[key].login,

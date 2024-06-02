@@ -1,34 +1,44 @@
 import { getWhoDontFollowYouBack, getWhoYouDontFollowBack } from "./filter.js";
 
-document.addEventListener('DOMContentLoaded', async()=>{
-    const userInput = document.getElementById('userName');
-    const button = document.getElementById("submitSearch")
+const processResultPromise = async (divContainer, promisse) => {
+  const arrDev = await promisse;
 
-    button.addEventListener("click", ()=>{
-        // console.log(userInput.value)
-        handleInput(userInput.value);
-    })
-    //divFollowers.innerHTML = await getWhoDontFollowYouBack()
-})
+  divContainer.innerHTML = "";
+  arrDev.forEach((dev) => {
+    const devInfo = `
+            <a href="${dev.html_url}" target="_blanket">
+                <hr>
+                <div class="user-info">
+                    <img src="${dev.avatar_url}" alt="Profile Image" class="devImage">
+                    <div class="user-name">${dev.login}</div>
+                </div>
+            </a>`;
+    divContainer.innerHTML += devInfo;
+  });
+};
 
-async function handleInput(userName){
-    const divFollowers = document.getElementsByClassName('notFollowsYou-container')[0];
-    const divFollowing = document.getElementsByClassName('youNotFollows-container')[0];
+document.addEventListener("DOMContentLoaded", async () => {
+  const userInput = document.getElementById("userName");
+  const button = document.getElementById("submitSearch");
 
-    const dontFollowYou = getWhoDontFollowYouBack(userName)
+  button.addEventListener("click", () => {
+    // console.log(userInput.value)
+    handleInput(userInput.value);
+  });
+  //divFollowers.innerHTML = await getWhoDontFollowYouBack()
+});
 
-    divFollowers.innerHTML = (await dontFollowYou).map((badDev, index)=>{
-        return `
-        <a href="${badDev.html_url}" target="_blanket">
-            ${index!= 0?"<hr/>": ""}
-            <div class="user-info">
-                <div class="user-name">${badDev.login}</div>
-                <img src="${badDev.avatar_url}" alt="Profile Image" class="devImage">
-            </div>
-        </a>
-    `;
-    });
-    divFollowing.innerHTML = "";
+async function handleInput(userName) {
+  const divFollowers = document.getElementsByClassName(
+    "notFollowsYou-container"
+  )[0];
+  const divFollowing = document.getElementsByClassName(
+    "youNotFollows-container"
+  )[0];
 
+  const dontFollowYou = getWhoDontFollowYouBack(userName);
+  const youDontFollow = getWhoYouDontFollowBack(userName);
 
+  processResultPromise(divFollowers, dontFollowYou);
+  processResultPromise(divFollowing, youDontFollow)
 }

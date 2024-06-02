@@ -11,16 +11,19 @@
 <body>
     <main class="mainContainer">
         <h1>Segue de Volta?</h1>
+        <p class="description"> Digite um nome de perfil do github, para saber quem essa pessoa não segue de volta e quem não segue ela de volta</p>
         <div>
-            <input type="text" name="userName" id="userName">
+            <input type="text" name="userName" id="userName" placeholder="Nome do perfil">
             <button id="submitSearch">Pesquisar</button>
         </div>
         <div class="listContainer">
-            <div class="notFollowsYou-container list">
-
+            <div class="list">
+                <h3>Não te segue de volta</h3>
+                <div class="notFollowsYou-container "></div>
             </div>
-            <div class="youNotFollows-container list">
-
+            <div class="list">
+                <h3>Você não segue de volta</h3>
+                <div class="youNotFollows-container "></div>
             </div>
         </div>
     </main>
